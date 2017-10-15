@@ -1,24 +1,14 @@
 import express from 'express'
-import { graphqlExpress, graphiqlExpress } from 'graphql-server-express'
-import bodyParser from 'body-parser'
-
-import { schema } from './schema'
+import { graphiqlExpress } from 'graphql-server-express'
+import apiV1 from './api/v1'
 
 const PORT = 4000
 const server = express()
 
-
-
-server.get('/', (req, res) => {
-  res.send('Hello World')
-})
-
-server.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema
-}))
+server.use('/v1', apiV1)
 
 server.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql'
+  endpointURL: '/v1/graphql'
 }))
 
 server.listen(PORT, () => console.log(`Graphql sever running at localhost port ${PORT}`))
